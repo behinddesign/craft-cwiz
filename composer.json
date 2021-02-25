@@ -1,0 +1,33 @@
+{
+  "name": "behinddesign/craft-cwiz",
+  "description": "Cwiz",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "cwiz"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Graham Davies",
+      "homepage": "http://www.behinddesign.co.uk"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "behinddesign\\cwiz\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Cwiz",
+    "handle": "cwiz",
+    "hasCpSettings": false,
+    "hasCpSection": false,
+    "changelogUrl": "???",
+    "class": "behinddesign\\cwiz\\Cwiz"
+  }
+}
