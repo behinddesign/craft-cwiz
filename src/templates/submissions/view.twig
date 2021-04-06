@@ -1,0 +1,25 @@
+{% extends 'cwiz/layouts/layout' %}
+
+{% set title = 'Submissions' | t('form-builder') %}
+{% set bodyClass = 'cwiz cwiz-submissions' %}
+{% set selectedSubnavItem = 'submissions' %}
+
+{% set context = 'index' %}
+
+{% set crumbs = [
+    { label: craft.cwiz.getPluginName(), url: url('cwiz') },
+    { label: 'Submissions' | t('cwiz'), url: url('cwiz/submissions') },
+    { label: submissions.id ~ ' : ' ~ quizElement.title | t('cwiz'), url: url('cwiz/submissions/' ~ submissions.id ~ '/view') },
+] %}
+
+{% block content %}
+
+    <h1>Quiz : {{ quizElement.title }}</h1>
+
+    {% set questionElement = quizElement.children().level(2).first() %}
+
+    {% for quiz in quizElement %}
+        {{ dump(quiz) }}
+    {% endfor %}
+
+{% endblock %}

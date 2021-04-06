@@ -1,0 +1,13 @@
+{% extends '_layouts/elementindex' %}
+
+{% set title = 'Submissions' | t('form-builder') %}
+{% set bodyClass = 'cwiz cwiz-submissions' %}
+{% set selectedSubnavItem = 'submissions' %}
+
+{% set elementType = 'behinddesign\\cwiz\\elements\\Submissions' %}
+{% set context = 'index' %}
+
+{% set crumbs = [
+    { label: craft.cwiz.getPluginName(), url: url('cwiz') },
+    { label: 'Submissions' | t('cwiz'), url: url('cwiz/submissions') },
+] %}

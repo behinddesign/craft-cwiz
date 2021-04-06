@@ -2,7 +2,7 @@
   "name": "behinddesign/craft-cwiz",
   "description": "Cwiz",
   "type": "craft-plugin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "keywords": [
     "craft",
     "cms",
@@ -17,6 +17,16 @@
       "homepage": "http://www.behinddesign.co.uk"
     }
   ],
+  "support": {
+    "email": "support@behinddesign.co.uk",
+    "issues": "https://github.com/behinddesign/craft-cwiz/issues?state=open",
+    "source": "https://github.com/behinddesign/craft-cwiz",
+    "docs": "https://github.com/behinddesign/craft-cwiz",
+    "rss": "https://github.com/behinddesign/craft-cwiz/commits/main.atom"
+  },
+  "require": {
+    "craftcms/cms": "^3.5.1"
+  },
   "autoload": {
     "psr-4": {
       "behinddesign\\cwiz\\": "src/"
@@ -25,8 +35,8 @@
   "extra": {
     "name": "Cwiz",
     "handle": "cwiz",
-    "hasCpSettings": false,
-    "hasCpSection": false,
+    "developer": "behinddesign",
+    "documentationUrl": "todo",
     "changelogUrl": "???",
     "class": "behinddesign\\cwiz\\Cwiz"
   }
