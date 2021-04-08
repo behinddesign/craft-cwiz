@@ -53,7 +53,7 @@ class Cwiz extends Plugin
     /**
      * @var string
      */
-    public $minVersionRequired = '3.5.1';
+    public $minVersionRequired = '0.1.0';
 
     /**
      * @var bool
@@ -97,7 +97,7 @@ class Cwiz extends Plugin
 
     private function registerCpNav()
     {
-        Event::on(
+        /*Event::on(
             Cp::class,
             Cp::EVENT_REGISTER_CP_NAV_ITEMS,
             function (RegisterCpNavItemsEvent $event) {
@@ -105,12 +105,12 @@ class Cwiz extends Plugin
                     'url' => 'cwiz/submissions',
                     'label' => 'Cwiz',
                     'icon' => '@cwiz/icon.svg',
-                    /*'subnav' => [
-                        'submissions' => ['label' => 'Submissions', 'url' => 'cwiz/submissions'],
-                    ]*/
+                    //'subnav' => [
+                    //    'submissions' => ['label' => 'Submissions', 'url' => 'cwiz/submissions'],
+                    //]
                 ];
             }
-        );
+        );*/
     }
 
     private function registerVariables()

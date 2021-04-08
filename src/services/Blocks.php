@@ -102,14 +102,15 @@ class Blocks extends Component
     public function hasAnswered()
     {
         if (empty($this->submission) || empty($this->submission->answers())) {
-            return false;
+            return null;
         }
 
+        $questionId = $this->element->owner->owner->id;
+
         $answers = $this->submission->answers();
-        foreach ($answers as $answer) {
-            if (!empty($answer[$this->element->id])) {
-                return true;
-            }
+
+        if (empty($answers[$questionId][$this->element->id])) {
+            return false;
         }
 
         return true;
