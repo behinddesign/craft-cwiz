@@ -48,7 +48,7 @@ class Cwiz extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '0.1.0';
+    public $schemaVersion = '0.1.1';
 
     /**
      * @var string
