@@ -38,7 +38,6 @@ class Install extends Migration
                 'userId' => $this->integer(),
                 'fieldLayoutId' => $this->integer()->notNull(),
 //                'archived' => $this->boolean()->notNull(),
-                'isTextAnswer' => $this->boolean()->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
                 'uid' => $this->uid()
@@ -54,6 +53,7 @@ class Install extends Migration
                 'optionElementId' => $this->integer(),
                 'answer' => $this->text(),
                 'isCorrect' => $this->boolean(),
+                'isTextAnswer' => $this->boolean()->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
                 'uid' => $this->uid()
