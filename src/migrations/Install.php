@@ -37,7 +37,8 @@ class Install extends Migration
                 'quizElementId' => $this->integer()->notNull(),
                 'userId' => $this->integer(),
                 'fieldLayoutId' => $this->integer()->notNull(),
-                'archived' => $this->boolean()->notNull(),
+//                'archived' => $this->boolean()->notNull(),
+                'isTextAnswer' => $this->boolean()->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
                 'uid' => $this->uid()

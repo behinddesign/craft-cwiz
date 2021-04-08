@@ -316,6 +316,12 @@ class Submissions extends Element
 
         $record->save(false);
 
+        //Clean up items which also do not have an answer.
+        if (Craft::$app->getRequest()->getBodyParam('questionElementId')) {
+            SubmissionAnswersRecord::deleteAll('questionElementId = ' .
+                Craft::$app->getRequest()->getBodyParam('questionElementId'));
+        }
+
         $formGroupOfAnswerIdsAndOptionIds = Craft::$app->getRequest()->getBodyParam('answer');
 
         if (!empty($formGroupOfAnswerIdsAndOptionIds)) {
@@ -472,7 +478,7 @@ class Submissions extends Element
         return Craft::$app->getUsers()->getUserById($this->userId);
     }
 
-    public function distinctQuizzes()
+    public static function distinctQuizzes()
     {
         $submissions = SubmissionsRecord::find()
             ->select('quizElementId')

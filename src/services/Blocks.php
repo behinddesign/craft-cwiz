@@ -60,7 +60,7 @@ class Blocks extends Component
     {
         //If there's no submissions, make sure all answers are marked correct so it doesn't trigger errors
         if (empty($this->submission) || empty($this->submission->answers())) {
-            return true;
+            return null;
         }
 
         $questionId = $this->element->owner->owner->id;
@@ -68,6 +68,14 @@ class Blocks extends Component
         $answers = $this->submission->answers();
         if (empty($answers[$questionId][$this->element->id])) {
             return null;
+        }
+
+        if (!isset($this->element->options)) {
+            if ($answers[$questionId][$this->element->id]['textAnswer']) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         $correct = true;
@@ -94,12 +102,14 @@ class Blocks extends Component
     public function hasAnswered()
     {
         if (empty($this->submission) || empty($this->submission->answers())) {
-            return true;
+            return false;
         }
 
         $answers = $this->submission->answers();
-        if (empty($answers[$this->element->id])) {
-            return false;
+        foreach ($answers as $answer) {
+            if (!empty($answer[$this->element->id])) {
+                return true;
+            }
         }
 
         return true;
