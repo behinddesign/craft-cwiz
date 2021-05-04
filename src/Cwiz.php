@@ -14,8 +14,10 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\events\RegisterElementActionsEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\events\RegisterUserPermissionsEvent;
 use craft\helpers\UrlHelper;
 use craft\services\Elements;
+use craft\services\UserPermissions;
 use craft\web\twig\variables\Cp;
 use behinddesign\cwiz\services\Cwiz as CwizService;
 use behinddesign\cwiz\services\Question as QuestionService;
@@ -72,6 +74,7 @@ class Cwiz extends Plugin
 
         \Yii::setAlias('@cwiz', __DIR__);
 
+        $this->registerPermissions();
         $this->registerComponents();
         $this->registerElements();
         $this->registerElementActions();
@@ -125,6 +128,18 @@ class Cwiz extends Plugin
                 $variable->set('cwiz', CwizService::class);
             }
         );
+    }
+
+    private function registerPermissions()
+    {
+        Event::on(
+            UserPermissions::class,
+            UserPermissions::EVENT_REGISTER_PERMISSIONS,
+            function (RegisterUserPermissionsEvent $event) {
+                $event->permissions['Cwiz'] = [
+                    'cwiz-viewSubmissions' => ['label' => Cwiz::t('View submissions')]
+                ];
+        });
     }
 
     private function handleEvents()

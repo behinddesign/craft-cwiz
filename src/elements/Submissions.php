@@ -318,8 +318,14 @@ class Submissions extends Element
 
         //Clean up items which also do not have an answer.
         if (Craft::$app->getRequest()->getBodyParam('questionElementId')) {
-            SubmissionAnswersRecord::deleteAll('questionElementId = ' .
-                Craft::$app->getRequest()->getBodyParam('questionElementId'));
+            SubmissionAnswersRecord::deleteAll(
+                'questionElementId = :questionElementId' .
+                ' AND submissionId = :submissionId',
+                [
+                    ':questionElementId' => Craft::$app->getRequest()->getBodyParam('questionElementId'),
+                    ':submissionId' => $this->id
+                ]
+            );
         }
 
         $formGroupOfAnswerIdsAndOptionIds = Craft::$app->getRequest()->getBodyParam('answer');
@@ -334,7 +340,14 @@ class Submissions extends Element
                 }
 
                 //Delete all existing options for this answer.
-                SubmissionAnswersRecord::deleteAll('answerElementId = ' . $answerElement->id);
+                SubmissionAnswersRecord::deleteAll(
+                    'answerElementId = :answerElementId' .
+                    ' AND submissionId = :submissionId',
+                    [
+                        ':answerElementId' => $answerElement->id,
+                        ':submissionId' => $this->id
+                    ]
+                );
 
                 if (!is_array($formOptionIds)) {
                     $formOptionIds = [$formOptionIds]; //Force it into a standard array.

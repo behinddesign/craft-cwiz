@@ -7,6 +7,7 @@ use Craft;
 use craft\elements\Entry;
 use craft\web\Response;
 use behinddesign\cwiz\elements\Submissions as SubmissionsElement;
+use yii\web\ForbiddenHttpException;
 
 class SubmissionsController extends Controller
 {
@@ -17,6 +18,11 @@ class SubmissionsController extends Controller
 
     public function actionView($submissionId): Response
     {
+        // Check against permissions to save at all, or per-form
+        if (!Craft::$app->getUser()->checkPermission('cwiz-viewSubmissions')) {
+            throw new ForbiddenHttpException('User is not permitted to perform this action');
+        }
+
         $submission = SubmissionsElement::find()
             ->where(['cwiz_submissions.id' => $submissionId])
             ->one();

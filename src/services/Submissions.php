@@ -19,15 +19,17 @@ class Submissions extends Component
 
     public function blocks(Element $block): Blocks
     {
-        $submissionElement = SubmissionsElement::find()
-            ->where([
-                'id' => $block->owner->owner,
-                'archived' => 0
-            ]);
+        $where = [
+            'quizElementId' => $block->owner->owner->parent->id,
+            'archived' => 0
+        ];
 
         if (Craft::$app->getUser()) {
-            $submissionElement->where(['userId' => Craft::$app->getUser()->getId()]);
+            $where['userId'] = Craft::$app->getUser()->getId();
         }
+
+        $submissionElement = SubmissionsElement::find()
+            ->where($where);
 
         $submission = $submissionElement->one();
 
@@ -36,15 +38,17 @@ class Submissions extends Component
 
     public function summary(Element $quizElement)
     {
-        $submissionElement = SubmissionsElement::find()
-            ->where([
-                'id' => $quizElement->id,
-                'archived' => 0
-            ]);
+        $where = [
+            'quizElementId' => $quizElement->id,
+            'archived' => 0
+        ];
 
         if (Craft::$app->getUser()) {
-            $submissionElement->where(['userId' => Craft::$app->getUser()->getId()]);
+            $where['userId'] = Craft::$app->getUser()->getId();
         }
+
+        $submissionElement = SubmissionsElement::find()
+            ->where($where);
 
         $submission = $submissionElement->one();
 
