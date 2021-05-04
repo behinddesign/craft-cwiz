@@ -13,7 +13,20 @@ class SubmissionsController extends Controller
 {
     public function actionIndex(): Response
     {
-        return $this->renderTemplate('submissions/index');
+        $perms = Craft::$app->getUser()->checkPermission('cwiz-viewSubmissions');
+
+        if (!$perms) {
+            return $this->deniedIndex();
+        }
+
+        return $this->renderTemplate('submissions/index', [
+            'hasPermission' => $perms
+        ]);
+    }
+
+    public function deniedIndex(): Response
+    {
+        return $this->renderTemplate('submissions/denied');
     }
 
     public function actionView($submissionId): Response

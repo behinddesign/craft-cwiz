@@ -1,13 +1,16 @@
-{% extends '_layouts/elementindex' %}
+{% extends 'cwiz/layouts/layout' %}
 
 {% set title = 'Submissions' | t('form-builder') %}
 {% set bodyClass = 'cwiz cwiz-submissions' %}
 {% set selectedSubnavItem = 'submissions' %}
+
+{% set context = 'index' %}
 
 {% set crumbs = [
     { label: craft.cwiz.getPluginName(), url: url('cwiz') },
     { label: 'Submissions' | t('cwiz'), url: url('cwiz/submissions') },
 ] %}
 
-{% set elementType = 'behinddesign\\cwiz\\elements\\Submissions' %}
-{% set context = 'index' %}
+{% block content %}
+    <p>Access to this module has been denied. Please enable 'View submissions' permission</p>
+{% endblock %}
