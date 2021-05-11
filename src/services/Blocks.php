@@ -56,6 +56,57 @@ class Blocks extends Component
         return $foundAnswer;
     }
 
+    public function isPartiallyCorrect()
+    {
+        //If there's no submissions, make sure all answers are marked correct so it doesn't trigger errors
+        if (empty($this->submission) || empty($this->submission->answers())) {
+            return false;
+        }
+
+        $questionId = $this->element->owner->owner->id;
+
+        $answers = $this->submission->answers();
+        if (empty($answers[$questionId][$this->element->id])) {
+            return false;
+        }
+
+        if (!isset($this->element->options)) {
+            return false;
+        }
+
+        $atLeastOneCorrect = false;
+        $atLeastOneIncorrect = false;
+        foreach ($this->element->options as $option) {
+            if (isset($answers[$questionId][$this->element->id]['textAnswer'])) {
+                continue;
+            }
+
+            //The option is marked as correct but the submission does not exist, mark as incorrect
+            if (
+                $option->correct &&
+                array_search($option->id, $answers[$questionId][$this->element->id]['answer']) === false
+            ) {
+                $atLeastOneIncorrect = true;
+            } elseif (
+                !$option->correct &&
+                array_search($option->id, $answers[$questionId][$this->element->id]['answer']) !== false
+            ) {
+                $atLeastOneIncorrect = true;
+            } elseif (
+                $option->correct &&
+                array_search($option->id, $answers[$questionId][$this->element->id]['answer']) !== false
+            ) {
+                $atLeastOneCorrect = true;
+            }
+        }
+
+        if ($atLeastOneCorrect && $atLeastOneIncorrect) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function isCorrect()
     {
         //If there's no submissions, make sure all answers are marked correct so it doesn't trigger errors
