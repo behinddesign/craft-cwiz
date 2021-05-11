@@ -233,6 +233,10 @@ class Submissions extends Element
                     ->where(['entries.id' => $this->quizElementId])
                     ->one();
 
+                if (empty($quiz)) {
+                    return '';
+                }
+
                 return $quiz->title;
         }
 
