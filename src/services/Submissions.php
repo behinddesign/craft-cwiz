@@ -8,6 +8,7 @@ use behinddesign\cwiz\elements\Submissions as SubmissionsElement;
 use behinddesign\cwiz\records\Submissions as SubmissionsRecord;
 use Craft;
 use craft\base\Element;
+use craft\web\User;
 use Exception;
 use yii\base\Component;
 use yii\web\NotFoundHttpException;
@@ -15,7 +16,22 @@ use yii\web\NotFoundHttpException;
 
 class Submissions extends Component
 {
-    protected $submission;
+    protected $useCurrentUser = true;
+    protected $submissionId;
+
+    public function currentUser($useCurrentUser)
+    {
+        $this->useCurrentUser = $useCurrentUser;
+
+        return $this;
+    }
+
+    public function submissionId($submissionId)
+    {
+        $this->submissionId = $submissionId;
+
+        return $this;
+    }
 
     public function blocks(Element $block): Blocks
     {
@@ -24,8 +40,12 @@ class Submissions extends Component
             'archived' => 0
         ];
 
-        if (Craft::$app->getUser()) {
+        if (Craft::$app->getUser() && $this->useCurrentUser) {
             $where['userId'] = Craft::$app->getUser()->getId();
+        }
+
+        if ($this->submissionId) {
+            $where['cwiz_submissions.id'] = $this->submissionId;
         }
 
         $submissionElement = SubmissionsElement::find()
@@ -43,8 +63,12 @@ class Submissions extends Component
             'archived' => 0
         ];
 
-        if (Craft::$app->getUser()) {
+        if (Craft::$app->getUser() && $this->useCurrentUser) {
             $where['userId'] = Craft::$app->getUser()->getId();
+        }
+
+        if ($this->submissionId) {
+            $where['cwiz_submissions.id'] = $this->submissionId;
         }
 
         $submissionElement = SubmissionsElement::find()

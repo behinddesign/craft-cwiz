@@ -12,17 +12,19 @@
     { label: submissions.id ~ ' : ' ~ quizElement.title | t('cwiz'), url: url('cwiz/submissions/' ~ submissions.id ~ '/view') },
 ] %}
 
-{% set quizId = craft.app.request.getSegment(3) %}
+{% set submissionId = craft.app.request.getSegment(3) %}
 
 {% block content %}
+
+    {% set submissions = craft.cwiz.submissions.currentUser(false).submissionId(submissionId) %}
 
     <h1>Quiz : {{ quizElement.title }}</h1>
 
     Quiz Summary:
-    Number of questions: {{ craft.cwiz.submissions.summary(quizElement).numberOfQuestions }} <br/>
-    Number of completed questions: {{ craft.cwiz.submissions.summary(quizElement).completedQuestions }} <br/>
-    Number of correct sub questions answered in total: {{ craft.cwiz.submissions.summary(quizElement).correctSubQuestions }} <br />
-    Number of sub questions in total: {{ craft.cwiz.submissions.summary(quizElement).numberOfSubQuestions }}
+    Number of questions: {{ submissions.summary(quizElement).numberOfQuestions }} <br/>
+    Number of completed questions: {{ submissions.summary(quizElement).completedQuestions }} <br/>
+    Number of correct sub questions answered in total: {{ submissions.summary(quizElement).correctSubQuestions }} <br />
+    Number of sub questions in total: {{ submissions.summary(quizElement).numberOfSubQuestions }}
 
     {% set questionElement = quizElement.children().level(2).first() %}
         {% for questionElement in quizElement.children().level(2) %}
@@ -33,7 +35,7 @@
 
                 Question Summary:
                 Number of sub questions: {{ questionElement.questionsAnswers | length }} <br/>
-                Number of completed sub questions: {{ craft.cwiz.submissions.summary(quizElement).completedSubQuestions(questionElement) }} <br/>
+                Number of completed sub questions: {{ submissions.summary(quizElement).completedSubQuestions(questionElement) }} <br/>
 
 
                 <div>
@@ -50,13 +52,13 @@
 
                             {% for option in answer.options %}
                                 <div>
-                                    <input type="radio" id="answer-{{ option.id }}" name="answer[{{ answer.id }}]" value="{{ option.id }}" {{ craft.cwiz.submissions.blocks(answer).checked(option) }}>
+                                    <input type="radio" id="answer-{{ option.id }}" name="answer[{{ answer.id }}]" value="{{ option.id }}" {{ submissions.blocks(answer).checked(option) }}>
                                     <label for="answer-{{ option.id }}">{{ option.option }}</label>
                                 </div>
                             {% endfor %}
 
-                            {% if not craft.cwiz.submissions.blocks(answer).isCorrect and craft.cwiz.submissions.blocks(answer).hasAnswered%}
-                                <p>Correct Answer = “{{ craft.cwiz.submissions.blocks(answer).correctAnswer }}”</p>
+                            {% if not submissions.blocks(answer).isCorrect and submissions.blocks(answer).hasAnswered%}
+                                <p>Correct Answer = “{{ submissions.blocks(answer).correctAnswer }}”</p>
                             {% endif %}
 
                         {% elseif answer.type == "select" %}
@@ -64,29 +66,29 @@
                                 <select name="answer[{{ answer.id }}]">
                                     <option value="">- Select -</option>
                                     {% for option in answer.options %}
-                                        <option value="{{ option.id }}" {{ craft.cwiz.submissions.blocks(answer).selected(option) }}>{{ option.option }}</option>
+                                        <option value="{{ option.id }}" {{ submissions.blocks(answer).selected(option) }}>{{ option.option }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
 
-                            {% if not craft.cwiz.submissions.blocks(answer).isCorrect and craft.cwiz.submissions.blocks(answer).hasAnswered%}
-                                <p>Correct Answer = “{{ craft.cwiz.submissions.blocks(answer).correctAnswer }}”</p>
+                            {% if not submissions.blocks(answer).isCorrect and submissions.blocks(answer).hasAnswered%}
+                                <p>Correct Answer = “{{ submissions.blocks(answer).correctAnswer }}”</p>
                             {% endif %}
 
                         {% elseif answer.type == "checkboxes" %}
 
                             {% for option in answer.options %}
                                 <div>
-                                    <input type="checkbox" id="answer-{{ option.id }}" name="answer[{{ answer.id }}][]" value="{{ option.id }}" {{ craft.cwiz.submissions.blocks(answer).checked(option) }}>
+                                    <input type="checkbox" id="answer-{{ option.id }}" name="answer[{{ answer.id }}][]" value="{{ option.id }}" {{ submissions.blocks(answer).checked(option) }}>
                                     <label for="answer-{{ option.id }}">{{ option.option }}</label>
                                 </div>
 
                             {% endfor %}
 
-                            {% if not craft.cwiz.submissions.blocks(answer).isCorrect and craft.cwiz.submissions.blocks(answer).hasAnswered%}
+                            {% if not submissions.blocks(answer).isCorrect and submissions.blocks(answer).hasAnswered%}
                                 <p>Correct Answers
                                 <ul>
-                                    {% for availableAnswer in craft.cwiz.submissions.blocks(answer).correctAnswers %}
+                                    {% for availableAnswer in submissions.blocks(answer).correctAnswers %}
                                         <li>{{ availableAnswer }}</li>
                                     {% endfor %}
                                 </ul>
@@ -94,19 +96,19 @@
                             {% endif %}
 
                         {% elseif answer.type == "text" %}
-                            {% if craft.cwiz.submissions.blocks(answer).hasAnswered %}
+                            {% if submissions.blocks(answer).hasAnswered %}
                                 <p>{{ answer.optionalMessage }}</p>
                             {% endif %}
                             <div>
-                                <input type="text" name="answer[{{ answer.id }}]" value="{{ craft.cwiz.submissions.blocks(answer).value }}" />
+                                <input type="text" name="answer[{{ answer.id }}]" value="{{ submissions.blocks(answer).value }}" />
                             </div>
 
                         {% elseif answer.type == "textarea" %}
-                            {% if craft.cwiz.submissions.blocks(answer).hasAnswered %}
+                            {% if submissions.blocks(answer).hasAnswered %}
                                 <p>{{ answer.optionalMessage }}</p>
                             {% endif %}
                             <div>
-                                <textarea class="type_text grey_bg" name="answer[{{ answer.id }}]">{{ craft.cwiz.submissions.blocks(answer).value }}</textarea>
+                                <textarea class="type_text grey_bg" name="answer[{{ answer.id }}]">{{ submissions.blocks(answer).value }}</textarea>
                             </div>
 
                         {% endif %}
