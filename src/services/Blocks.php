@@ -130,7 +130,7 @@ class Blocks extends Component
         }
 
         $correct = true;
-        foreach ($this->element->options as $option) {
+        foreach ($this->element->options->all() as $option) {
             //The option is marked as correct but the submission does not exist, mark as incorrect
             if (
                 $option->correct &&
