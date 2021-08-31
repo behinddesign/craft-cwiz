@@ -486,13 +486,19 @@ class Submissions extends Element
         return Cwiz::$plugin->getSummary()->setQuiz();
     }
 
-    public function user(): UserElement
+    public function user(): ?UserElement
     {
         if (!empty($this->user)) {
             return $this->user;
         }
 
-        return Craft::$app->getUsers()->getUserById($this->userId);
+        $user = Craft::$app->getUsers()->getUserById($this->userId);
+
+        if (empty($user)) {
+            return null;
+        }
+
+        return $user;
     }
 
     public static function distinctQuizzes()
