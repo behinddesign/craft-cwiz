@@ -227,7 +227,11 @@ class Submissions extends Element
     {
         switch ($attribute) {
             case 'userId':
-                return $this->user()->name;
+                if ($this->user()) {
+                    return $this->user()->name;
+                }
+
+                return '';
             case 'quizElementId':
                 $quiz = Entry::find()
                     ->where(['entries.id' => $this->quizElementId])
